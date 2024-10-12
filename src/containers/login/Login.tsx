@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Box, FormControl, Paper, TextField} from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid2';
@@ -7,9 +7,6 @@ const Login = () => {
     const [account, setAccount] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [isLoginButtonLoading, setIsLoginButtonLoading] = useState<boolean>(false);
-    useEffect(() => {
-        console.log("window.location.href: " + JSON.stringify(window.location.href));
-    }, [])
 
     const doLogin = async () => {
         // 这里可以添加实际的登录逻辑，例如 API 调用
@@ -39,8 +36,6 @@ const Login = () => {
                 }
                 return response.json();
             }).then(data => {
-                const redirectUri: string | null = getCallBackFromURL();
-                console.log("redirectUri: " + redirectUri);
                 window.location.href = getCallBackFromURL() + "?token=" + data.token;
             }).catch(error => {
                 alert(error)
@@ -111,9 +106,7 @@ const Login = () => {
 };
 
 const getCallBackFromURL = () => {
-    console.log("in getCallBackFromURL" )
     const result: string | null = new URLSearchParams(location.search).get('redirect_uri');
-    console.log(result);
     return result;
 }
 export default Login;
